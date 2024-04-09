@@ -1,31 +1,37 @@
 import css from "./MovieDetailsPage.module.css";
 
-import { useEffect, useState } from "react";
-import { Link, Route, Routes, useParams } from "react-router-dom";
-import { requestMovieDetails } from "../../services/app";
+// import { useEffect, useState } from "react";
+import { Link, Route, Routes } from "react-router-dom";
+// import { requestMovieDetails } from "../../services/app";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import MovieCast from "../../components/MovieCast/MovieCast";
 import MovieReviews from "../../components/MovieReviews/MovieReviews";
+import Loader from "../../components/Loader/Loader";
+import { useMovieSearch } from "../../hooks/useMovieSearch";
 
 const MovieDetailsPage = () => {
-  const { movieId } = useParams();
-  const [movieDetails, setMovieDetails] = useState(null);
-  const [error, setError] = useState(false);
+  const { isLoading, error, movieDetails } = useMovieSearch({
+    isSearchPage: true,
+  });
+  // const { movieId } = useParams();
+  // const [movieDetails, setMovieDetails] = useState(null);
+  // const [error, setError] = useState(false);
 
-  useEffect(() => {
-    async function fetchMovieDetails() {
-      try {
-        const data = await requestMovieDetails(movieId);
-        setMovieDetails(data);
-      } catch (error) {
-        setError(true);
-      }
-    }
-    fetchMovieDetails();
-  }, [movieId]);
+  // useEffect(() => {
+  //   async function fetchMovieDetails() {
+  //     try {
+  //       const data = await requestMovieDetails(movieId);
+  //       setMovieDetails(data);
+  //     } catch (error) {
+  //       setError(true);
+  //     }
+  //   }
+  //   fetchMovieDetails();
+  // }, [movieId]);
 
   return (
     <>
+      {isLoading && <Loader />}
       {movieDetails !== null && (
         <div className={css.movieDetailsContainer}>
           <img

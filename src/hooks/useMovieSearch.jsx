@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {
   requestMovieCredits,
+  requestMovieDetails,
   requestMovieReviews,
   requestSearchMovie,
   requestTrendingMovies,
@@ -12,6 +13,9 @@ export const useMovieSearch = ({ isSearchPage = false }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  //MovieDetailsPage
+  const [movieDetails, setMovieDetails] = useState(null);
+  //MovieDetailsPage
   //Cast info
   const { movieId } = useParams();
   const [castDetails, setCastDetails] = useState(null);
@@ -58,6 +62,21 @@ export const useMovieSearch = ({ isSearchPage = false }) => {
     setSearchParams({ query: searchMovie });
   };
 
+  //MovieDetailsPage
+  useEffect(() => {
+    if (!movieId) return;
+    async function fetchMovieDetails() {
+      try {
+        const data = await requestMovieDetails(movieId);
+        setMovieDetails(data);
+      } catch (error) {
+        setError(true);
+      }
+    }
+    fetchMovieDetails();
+  }, [movieId]);
+  //MovieDetailsPage
+
   //Cast info
   useEffect(() => {
     if (!movieId) return;
@@ -93,5 +112,13 @@ export const useMovieSearch = ({ isSearchPage = false }) => {
     fetchMovieReviews();
   }, [movieId]);
 
-  return { movies, isLoading, error, onSearchQuery, castDetails, movieReviews };
+  return {
+    movies,
+    isLoading,
+    error,
+    onSearchQuery,
+    castDetails,
+    movieReviews,
+    movieDetails,
+  };
 };
