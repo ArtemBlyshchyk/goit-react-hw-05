@@ -1,36 +1,24 @@
 import css from "./MovieDetailsPage.module.css";
-
-// import { useEffect, useState } from "react";
-import { Link, Route, Routes } from "react-router-dom";
-// import { requestMovieDetails } from "../../services/app";
+import { Link, Route, Routes, useLocation } from "react-router-dom";
+import { Suspense, lazy, useRef } from "react";
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
-import MovieCast from "../../components/MovieCast/MovieCast";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
 import Loader from "../../components/Loader/Loader";
 import { useMovieSearch } from "../../hooks/useMovieSearch";
+const MovieCast = lazy(() => import("../../components/MovieCast/MovieCast"));
+const MovieReviews = lazy(() =>
+  import("../../components/MovieReviews/MovieReviews")
+);
 
 const MovieDetailsPage = () => {
   const { isLoading, error, movieDetails } = useMovieSearch({
     isSearchPage: true,
   });
-  // const { movieId } = useParams();
-  // const [movieDetails, setMovieDetails] = useState(null);
-  // const [error, setError] = useState(false);
-
-  // useEffect(() => {
-  //   async function fetchMovieDetails() {
-  //     try {
-  //       const data = await requestMovieDetails(movieId);
-  //       setMovieDetails(data);
-  //     } catch (error) {
-  //       setError(true);
-  //     }
-  //   }
-  //   fetchMovieDetails();
-  // }, [movieId]);
+  const location = useLocation();
+  const backLinkRef = useRef(location.state ?? "/");
 
   return (
     <>
+      <Link to={backLinkRef.current}>⬅ Go back</Link>
       {isLoading && <Loader />}
       {movieDetails !== null && (
         <div className={css.movieDetailsContainer}>
@@ -40,7 +28,11 @@ const MovieDetailsPage = () => {
           <div>
             <h2>
               {movieDetails.original_title} (
-              {movieDetails.release_date.match(/^\d{4}/)[0]})
+              {/* {movieDetails.release_date.match(/^\d{4}/)[0]}) */}
+              {movieDetails.release_date.match(/^\d{4}/)
+                ? movieDetails.release_date.match(/^\d{4}/)[0]
+                : "Unknown"}
+              )
             </h2>
             <p>Userscore: {Math.round(movieDetails.vote_average * 10)}%</p>
             <h3>Overview</h3>
@@ -66,10 +58,12 @@ const MovieDetailsPage = () => {
             </ul>
           </div>
 
-          <Routes>
-            <Route path="cast" element={<MovieCast />} />
-            <Route path="reviews" element={<MovieReviews />} />
-          </Routes>
+          <Suspense fallback={<Loader />}>
+            <Routes>
+              <Route path="cast" element={<MovieCast />} />
+              <Route path="reviews" element={<MovieReviews />} />
+            </Routes>
+          </Suspense>
         </div>
       )}
 
