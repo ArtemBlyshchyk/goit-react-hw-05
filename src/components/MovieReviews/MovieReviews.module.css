@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-left: 20px;
 }
 
 .reviewsContainer:not(:last-child) {
@@ -11,6 +12,6 @@
 .reviewsContainer > li:first-child {
   font-weight: 700;
 }
-.reviewsContainer > li:not(:first-child) {
-  list-style: none;
+.reviewsContainer > li:first-child {
+  list-style: disc;
 }
