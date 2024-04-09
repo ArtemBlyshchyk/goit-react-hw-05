@@ -1,0 +1,19 @@
+.castContainerInfo {
+  /* border-top: 1px solid black; */
+  padding-top: 10px;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.castContainerInfo > img {
+  height: 150px;
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+.castContainerInfo > ul > li:not(:last-child) {
+  margin-bottom: 10px;
+}
+.castContainerInfo > ul > li:first-child {
+  list-style: disc;
+}

@@ -1,0 +1,16 @@
+.reviewsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reviewsContainer:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.reviewsContainer > li:first-child {
+  font-weight: 700;
+}
+.reviewsContainer > li:not(:first-child) {
+  list-style: none;
+}

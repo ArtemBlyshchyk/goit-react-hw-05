@@ -1,0 +1,40 @@
+.movieDetailsContainer {
+  padding: 0 10px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.movieDetailsContainer img {
+  width: 200px;
+  height: 300px;
+}
+
+.movieDetailsContainer > div > h2,
+.movieDetailsContainer > div > h3,
+.movieDetailsContainer > div > h4,
+.movieDetailsContainer > div > p {
+  margin-bottom: 10px;
+}
+
+.castInfo {
+  margin: 10px 0;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  /* border-top: 1px solid black; */
+}
+
+.additionalInfo {
+  padding: 10px 20px;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.additionalInfo > ul > li {
+  list-style: disc;
+}
+.additionalInfo > ul > li > a:active,
+.additionalInfo > ul > li > a:visited {
+  color: blue;
+}
